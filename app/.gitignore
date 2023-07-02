@@ -1,1 +1,3 @@
 /build
+/schemas/org.dieschnittstelle.mobile.android.skeleton.util.DatabaseRepository.ToDoDatabase/*
+/schemas/org.dieschnittstelle.mobile.android.skeleton.util.RoomCRUDOperations.ToDoDatabase/*

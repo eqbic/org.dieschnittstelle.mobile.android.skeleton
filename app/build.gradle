@@ -6,7 +6,7 @@ android {
     compileSdkVersion 33
     defaultConfig {
         applicationId "org.dieschnittstelle.mobile.android.skeleton"
-        minSdkVersion 24
+        minSdkVersion 33
         targetSdkVersion 33
         versionCode 1
         versionName "1.0"
@@ -74,5 +74,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'it.xabaras.android:recyclerview-swipedecorator:1.4'
 }
 

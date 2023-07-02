@@ -1,5 +1,15 @@
 <resources>
-    <string name="app_name">MAD Demo S23</string>
+    <!-- General -->
+    <string name="app_name">To do app</string>
     <string name="welcome_message">Welcome to MAD S23</string>
     <string name="welcome_message_alternative">Welcome once again.</string>
+
+    <!-- Overview-->
+    <string name="overviewTitle">Tasks</string>
+
+    <!-- Detail View-->
+    <string name="detail_hint_name">Name</string>
+    <string name="detail_hint_description">Description</string>
+    <string name="detail_hint_date">Date</string>
+    <string name="detail_hint_time">Time</string>
 </resources>
