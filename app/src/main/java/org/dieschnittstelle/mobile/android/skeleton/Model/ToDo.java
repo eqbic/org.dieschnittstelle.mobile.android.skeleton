@@ -30,7 +30,7 @@ public class ToDo implements Serializable {
     private boolean favourite;
 
     @Ignore
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
     @Ignore
     SimpleDateFormat parseFormat = new SimpleDateFormat("yyyy-MM-dd");
     @Ignore

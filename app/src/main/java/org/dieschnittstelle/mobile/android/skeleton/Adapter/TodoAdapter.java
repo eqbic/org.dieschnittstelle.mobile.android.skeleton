@@ -52,6 +52,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.MyViewHolder>{
         holder.textView.setText(todo.getName());
         holder.checkBox.setChecked(todo.getDone());
         updateFavIcon(holder, todo.getFavourite());
+        holder.date.setText(todo.getDate());
         holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             todo.setDone(isChecked);
             operationRunner.run(
@@ -114,6 +115,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.MyViewHolder>{
         TextView textView;
         CardView cardView;
         ImageButton favouriteButton;
+        TextView date;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -121,6 +123,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.MyViewHolder>{
             textView = itemView.findViewById(R.id.todo_name);
             cardView = itemView.findViewById(R.id.todo);
             favouriteButton = itemView.findViewById(R.id.todo_favourite);
+            date = itemView.findViewById(R.id.todo_date);
         }
     }
 }
