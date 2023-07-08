@@ -48,7 +48,7 @@ public class OverviewActivity extends AppCompatActivity {
 
         this.operationRunner = new AsyncOperationRunner(this, null);
 
-        repositoryManager = new RepositoryManager(this.getApplicationContext());
+        repositoryManager = new RepositoryManager(this);
 
         this.todoAdapter = new TodoAdapter(repositoryManager, OverviewActivity.this);
 

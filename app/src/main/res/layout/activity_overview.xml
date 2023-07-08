@@ -44,27 +44,28 @@
                 />
 
         </LinearLayout>
-
-
-        <androidx.recyclerview.widget.RecyclerView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/itemList"
-            android:layout_below="@id/title"
-            android:nestedScrollingEnabled="true"
-            />
+            android:layout_height="match_parent">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/addButton"
-            android:onClick="@{() -> viewmodel.onNewTodo()}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="30dp"
-            android:src="@drawable/baseline_add_24"
-            />
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/itemList"
+                android:nestedScrollingEnabled="true"
+                />
 
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/addButton"
+                android:onClick="@{() -> viewmodel.onNewTodo()}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="30dp"
+                android:src="@drawable/baseline_add_24"
+                />
 
+        </RelativeLayout>
     </LinearLayout>
 </layout>
