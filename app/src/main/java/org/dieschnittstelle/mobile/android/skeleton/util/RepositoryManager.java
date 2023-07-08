@@ -57,9 +57,9 @@ public class RepositoryManager implements IRepository<ToDo> {
 
     public boolean delete(ToDo toDo){
         try{
-            return webRepo.update(toDo);
+            return webRepo.delete(toDo);
         }catch (Exception e){
-            return localRepo.update(toDo);
+            return localRepo.delete(toDo);
         }
     }
 
