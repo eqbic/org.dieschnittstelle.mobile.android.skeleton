@@ -21,21 +21,21 @@ import org.dieschnittstelle.mobile.android.skeleton.OverviewActivity;
 import org.dieschnittstelle.mobile.android.skeleton.R;
 import org.dieschnittstelle.mobile.android.skeleton.util.AsyncOperationRunner;
 import org.dieschnittstelle.mobile.android.skeleton.util.IRepository;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.dieschnittstelle.mobile.android.skeleton.viewmodel.OverviewActivityViewModel;
 
 public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.MyViewHolder>{
 
-    private List<ToDo> todoList = new ArrayList<>();
+//    private List<ToDo> todoList = new ArrayList<>();
     private OverviewActivity overview;
 
     private IRepository<ToDo> repository;
     private AsyncOperationRunner operationRunner;
+    private OverviewActivityViewModel viewModel;
 
-    public TodoAdapter(IRepository<ToDo> repository, OverviewActivity overview){
+    public TodoAdapter(IRepository<ToDo> repository, OverviewActivity overview, OverviewActivityViewModel viewModel){
         this.overview = overview;
         this.repository = repository;
+        this.viewModel = viewModel;
         this.operationRunner = new AsyncOperationRunner(overview, null);
     }
 
@@ -48,11 +48,8 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.MyViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        final ToDo todo = todoList.get(position);
-        holder.textView.setText(todo.getName());
-        holder.checkBox.setChecked(todo.getDone());
-        updateFavIcon(holder, todo.getFavourite());
-        holder.date.setText(todo.getDate());
+        final ToDo todo = this.viewModel.getTodos().get(position);
+
         holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             todo.setDone(isChecked);
             operationRunner.run(
@@ -71,6 +68,10 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.MyViewHolder>{
             );
             updateFavIcon(holder, todo.getFavourite());
         });
+        holder.textView.setText(todo.getName());
+        holder.checkBox.setChecked(todo.getDone());
+        updateFavIcon(holder, todo.getFavourite());
+        holder.date.setText(todo.getDate());
     }
 
     private void updateFavIcon(MyViewHolder holder, boolean isFavourite){
@@ -81,30 +82,32 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.MyViewHolder>{
 
     @Override
     public int getItemCount() {
-        return todoList.size();
+        if(this.viewModel == null || this.viewModel.getTodos() == null){
+            return 0;
+        }
+        return this.viewModel.getTodos().size();
     }
 
     public Context getContext(){
         return overview;
     }
 
-    public void setTodos(List<ToDo> todos){
-        this.todoList = todos;
+    public void update(){
         notifyDataSetChanged();
     }
 
     public void deleteTodo(int position){
-        ToDo todo = todoList.get(position);
+        ToDo todo = this.viewModel.getTodos().get(position);
         operationRunner.run(
                 () -> repository.delete(todo),
                 null
         );
-        todoList.remove(position);
+        this.viewModel.getTodos().remove(position);
         notifyItemRemoved(position);
     }
 
     public void editTodo(int position){
-        ToDo todo = todoList.get(position);
+        ToDo todo = this.viewModel.getTodos().get(position);
         Intent intent = new Intent(overview, DetailActivity.class);
         intent.putExtra("todo", todo);
         overview.startActivity(intent);

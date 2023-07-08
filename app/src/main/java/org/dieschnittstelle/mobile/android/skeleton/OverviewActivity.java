@@ -2,10 +2,9 @@ package org.dieschnittstelle.mobile.android.skeleton;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.PopupMenu;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,7 +49,14 @@ public class OverviewActivity extends AppCompatActivity {
 
         repositoryManager = new RepositoryManager(this);
 
-        this.todoAdapter = new TodoAdapter(repositoryManager, OverviewActivity.this);
+        this.todoAdapter = new TodoAdapter(repositoryManager, OverviewActivity.this, this.viewModel);
+
+        // update todos on the first time and get them by viewmodel otherwise
+        if(this.viewModel.getTodos() == null){
+            updateTodos();
+        }else{
+            this.todoAdapter.update();
+        }
 
         // setup recyclerview
         this.recyclerView = findViewById(R.id.itemList);
@@ -58,29 +64,35 @@ public class OverviewActivity extends AppCompatActivity {
         this.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         this.recyclerView.setAdapter(todoAdapter);
 
-        // update todos on the first time and get them by viewmodel otherwise
-        if(this.viewModel.getTodos() == null){
-            updateTodos();
-        }else{
-            this.todoAdapter.setTodos(this.viewModel.getTodos());
-        }
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerViewTouchHelper(todoAdapter));
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_overview_menu, menu);
-        return true;
-    }
-
     public void showSortMenu(View view){
         PopupMenu popup = new PopupMenu(view.getContext(), view);
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.activity_overview_menu, popup.getMenu());
+        popup.setOnMenuItemClickListener(this::selectMenuItem);
         popup.show();
+    }
+
+    private boolean selectMenuItem(MenuItem item){
+        switch (item.getItemId()){
+            case R.id.sortByName:
+                this.viewModel.setSortMode(OverviewActivityViewModel.SORT_BY_NAME);
+                break;
+            case R.id.sortByDate:
+                this.viewModel.setSortMode(OverviewActivityViewModel.SORT_BY_DATE);
+                break;
+            case R.id.sortByFavourite:
+                this.viewModel.setSortMode(OverviewActivityViewModel.SORT_BY_FAVOURITE);
+                break;
+        }
+        this.viewModel.sort();
+        this.todoAdapter.update();
+        return true;
     }
 
     public static IRepository<ToDo> getRepository(){
@@ -92,12 +104,16 @@ public class OverviewActivity extends AppCompatActivity {
         startActivity(callDetailViewIntent);
     }
 
-    private void updateTodos(){
+    public void updateView(){
+        this.todoAdapter.update();
+    }
+
+    public void updateTodos(){
         operationRunner.run(
                 () -> repositoryManager.readAll(),
                 items -> {
-                    this.todoAdapter.setTodos(items);
                     this.viewModel.setTodos(items);
+                    this.todoAdapter.update();
                 }
         );
     }

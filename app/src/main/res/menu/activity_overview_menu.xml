@@ -2,5 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item  android:title="SORT" app:showAsAction="always"/>
+    <item  android:title="@string/sort_by_name" app:showAsAction="ifRoom" android:id="@+id/sortByName"/>
+    <item android:title="@string/sort_by_date" app:showAsAction="ifRoom" android:id="@+id/sortByDate"/>
+    <item android:title="@string/sort_by_favourite" app:showAsAction="ifRoom" android:id="@+id/sortByFavourite"/>
 </menu>

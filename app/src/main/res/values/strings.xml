@@ -12,4 +12,9 @@
     <string name="detail_hint_description">Description</string>
     <string name="detail_hint_date">Date</string>
     <string name="detail_hint_time">Time</string>
+
+    <!-- Sort Menu -->
+    <string name="sort_by_name">Name</string>
+    <string name="sort_by_date">Date</string>
+    <string name="sort_by_favourite">Favourite</string>
 </resources>
