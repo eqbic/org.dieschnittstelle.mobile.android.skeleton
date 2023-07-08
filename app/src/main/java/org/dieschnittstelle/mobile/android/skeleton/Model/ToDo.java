@@ -3,13 +3,18 @@ package org.dieschnittstelle.mobile.android.skeleton.Model;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 import com.google.gson.annotations.Expose;
+
+import org.dieschnittstelle.mobile.android.skeleton.util.ListConverters;
 
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.TimeZone;
 
@@ -29,6 +34,10 @@ public class ToDo implements Serializable {
     @Expose
     private boolean favourite;
 
+    @Expose
+    @TypeConverters(ListConverters.class)
+    private List<String> contacts;
+
     @Ignore
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
     @Ignore
@@ -45,6 +54,10 @@ public class ToDo implements Serializable {
     public String getTime(){
         Date date = new Date(this.expiry);
         return timeFormat.format(date);
+    }
+
+    public Date getTimeAsDate(){
+        return new Date(this.expiry);
     }
 
     public long getDateInMilliseconds(){
@@ -142,4 +155,14 @@ public class ToDo implements Serializable {
         this.expiry = expiry;
     }
 
+    public List<String> getContacts() {
+        if(contacts == null){
+            contacts = new ArrayList<>();
+        }
+        return contacts;
+    }
+
+    public void setContacts(List<String> contactIds) {
+        this.contacts = contactIds;
+    }
 }

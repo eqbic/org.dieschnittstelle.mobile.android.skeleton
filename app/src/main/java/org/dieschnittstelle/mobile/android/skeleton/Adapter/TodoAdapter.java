@@ -23,7 +23,7 @@ import org.dieschnittstelle.mobile.android.skeleton.util.AsyncOperationRunner;
 import org.dieschnittstelle.mobile.android.skeleton.util.IRepository;
 import org.dieschnittstelle.mobile.android.skeleton.viewmodel.OverviewActivityViewModel;
 
-public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.MyViewHolder>{
+public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoElementHolder>{
 
 //    private List<ToDo> todoList = new ArrayList<>();
     private OverviewActivity overview;
@@ -41,13 +41,13 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.MyViewHolder>{
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TodoElementHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.todo_layout, parent, false);
-        return new MyViewHolder(view);
+        return new TodoElementHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TodoElementHolder holder, int position) {
         final ToDo todo = this.viewModel.getTodos().get(position);
 
         holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -74,7 +74,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.MyViewHolder>{
         holder.date.setText(todo.getDate());
     }
 
-    private void updateFavIcon(MyViewHolder holder, boolean isFavourite){
+    private void updateFavIcon(TodoElementHolder holder, boolean isFavourite){
         int resourceId = isFavourite ? R.drawable.baseline_favourite_24 : R.drawable.baseline_not_favourite_24;
         Drawable icon = ContextCompat.getDrawable(overview, resourceId);
         holder.favouriteButton.setBackground(icon);
@@ -113,14 +113,14 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.MyViewHolder>{
         overview.startActivity(intent);
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder{
+    public static class TodoElementHolder extends RecyclerView.ViewHolder{
         CheckBox checkBox;
         TextView textView;
         CardView cardView;
         ImageButton favouriteButton;
         TextView date;
 
-        public MyViewHolder(@NonNull View itemView) {
+        public TodoElementHolder(@NonNull View itemView) {
             super(itemView);
             checkBox = itemView.findViewById(R.id.todo_checkbox);
             textView = itemView.findViewById(R.id.todo_name);

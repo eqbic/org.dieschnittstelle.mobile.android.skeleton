@@ -10,7 +10,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".DetailActivity">
+        tools:context="org.dieschnittstelle.mobile.android.skeleton.DetailActivity">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,6 +36,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@={viewmodel.todo.name}"
+                        android:error="@{viewmodel.nameError}"
                         />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -43,7 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:checked="@={viewmodel.todo.favourite}"
-                    android:button="@drawable/baseline_not_favourite_24"
+                    android:text="Favourite"
                     />
             </LinearLayout>
 
@@ -66,6 +67,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@{viewmodel.todo.date}"
+                        android:error="@{viewmodel.dateError}"
                         />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -83,6 +85,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@{viewmodel.todo.time}"
+                        android:error="@{viewmodel.timeError}"
                         />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -106,6 +109,36 @@
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end"
+                >
+
+                <ListView
+                    android:id="@+id/addedContacts"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1">
+
+
+                </ListView>
+
+                <ImageButton
+                    android:id="@+id/addContacts"
+                    android:layout_width="40sp"
+                    android:layout_height="40sp"
+                    android:background="@drawable/baseline_contacts_24"
+                    android:backgroundTint="@color/primaryDark"
+                    android:layout_marginTop="20sp"
+                    android:layout_marginEnd="20sp"
+                    android:onClick="addContacts"
+                    />
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

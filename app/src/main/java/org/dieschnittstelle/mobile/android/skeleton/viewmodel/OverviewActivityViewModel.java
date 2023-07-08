@@ -18,8 +18,8 @@ public class OverviewActivityViewModel extends ViewModel implements IOverviewVie
     private List<ToDo> todos;
 
     public final static Comparator<ToDo> SORT_BY_NAME = Comparator.comparing(ToDo::getDone).thenComparing(ToDo::getName);
-    public final static Comparator<ToDo> SORT_BY_DATE = Comparator.comparing(ToDo::getDone).thenComparing(ToDo::getExpiry);
-    public final static Comparator<ToDo> SORT_BY_FAVOURITE = Comparator.comparing(ToDo::getDone).thenComparing(ToDo::getFavourite, Comparator.reverseOrder());
+    public final static Comparator<ToDo> SORT_BY_DATE = Comparator.comparing(ToDo::getDone).thenComparing(ToDo::getExpiry).thenComparing(ToDo::getFavourite, Comparator.reverseOrder());
+    public final static Comparator<ToDo> SORT_BY_FAVOURITE = Comparator.comparing(ToDo::getDone).thenComparing(ToDo::getFavourite, Comparator.reverseOrder()).thenComparing(ToDo::getExpiry);
 
 
     private Comparator<ToDo> sortMode = SORT_BY_DATE;

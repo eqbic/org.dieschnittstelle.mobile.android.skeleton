@@ -5,7 +5,7 @@
     <string name="welcome_message_alternative">Welcome once again.</string>
 
     <!-- Overview-->
-    <string name="overviewTitle">Tasks</string>
+    <string name="overviewTitle">ToDos</string>
 
     <!-- Detail View-->
     <string name="detail_hint_name">Name</string>
