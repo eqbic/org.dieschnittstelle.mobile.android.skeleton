@@ -42,13 +42,14 @@ public class OverviewActivity extends AppCompatActivity {
             createNewTodo();
         });
 
-        // setup progressbar
-        this.progressBar = findViewById(R.id.progressBar);
+
 
         // setup data binding
         this.binding = DataBindingUtil.setContentView(this, R.layout.activity_overview);
         this.binding.setViewmodel(this.viewModel);
 
+        // setup progressbar
+        this.progressBar = findViewById(R.id.overview_progressbar);
         this.operationRunner = new AsyncOperationRunner(this, this.progressBar);
 
         this.repository = ((TodoApplication)getApplication()).getRepository();
@@ -60,6 +61,8 @@ public class OverviewActivity extends AppCompatActivity {
         }else{
             this.todoAdapter.update();
         }
+
+
 
         // setup recyclerview
         this.recyclerView = findViewById(R.id.itemList);
@@ -83,8 +86,8 @@ public class OverviewActivity extends AppCompatActivity {
 
     private boolean selectMenuItem(MenuItem item){
         switch (item.getItemId()){
-            case R.id.sortByName:
-                this.viewModel.setSortMode(OverviewActivityViewModel.SORT_BY_NAME);
+            case R.id.removeAll:
+                removeAll();
                 break;
             case R.id.sortByDate:
                 this.viewModel.setSortMode(OverviewActivityViewModel.SORT_BY_DATE);
@@ -98,6 +101,24 @@ public class OverviewActivity extends AppCompatActivity {
         return true;
     }
 
+    private void removeAll(){
+        operationRunner.run(
+                ()->{
+                    try{
+                        Thread.sleep(1000);
+                        this.repository.deleteAll();
+                        return this.repository.readAll();
+                    }catch (Exception e){
+                        throw new RuntimeException(e);
+                    }
+                },
+                todos -> {
+                    this.viewModel.setTodos(todos);
+                    this.todoAdapter.update();
+                }
+        );
+    }
+
     private void createNewTodo() {
         Intent callDetailViewIntent = new Intent(this, DetailActivity.class);
         startActivity(callDetailViewIntent);
@@ -109,7 +130,14 @@ public class OverviewActivity extends AppCompatActivity {
 
     public void updateTodos(){
         operationRunner.run(
-                () -> this.repository.readAll(),
+                () -> {
+                    try{
+                        Thread.sleep(1000);
+                        return this.repository.readAll();
+                    }catch (Exception e){
+                        throw new RuntimeException(e);
+                    }
+                },
                 items -> {
                     this.viewModel.setTodos(items);
                     this.todoAdapter.update();

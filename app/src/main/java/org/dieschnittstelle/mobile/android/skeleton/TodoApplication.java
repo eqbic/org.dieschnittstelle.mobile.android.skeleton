@@ -6,34 +6,40 @@ import android.widget.Toast;
 import org.dieschnittstelle.mobile.android.skeleton.Model.ToDo;
 import org.dieschnittstelle.mobile.android.skeleton.util.DatabaseRepository;
 import org.dieschnittstelle.mobile.android.skeleton.util.IRepository;
-import org.dieschnittstelle.mobile.android.skeleton.util.WebRepository;
+import org.dieschnittstelle.mobile.android.skeleton.util.SyncedRepository;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.CompletableFuture;
 
-import retrofit2.http.Url;
-
 public class TodoApplication extends Application {
 
     private IRepository<ToDo> repository;
+    private boolean isOnline;
 
     @Override
     public void onCreate() {
         super.onCreate();
         try{
             if(checkConnectivity().get()){
-                this.repository = new WebRepository();
+                this.repository = new SyncedRepository(this);
+                this.isOnline = true;
             }else{
                 this.repository = new DatabaseRepository(this);
+                this.isOnline = false;
             }
             Toast.makeText(this, "Using Repository: " + repository.getClass().getSimpleName(), Toast.LENGTH_SHORT).show();
 
         }catch (Exception e){
             this.repository = new DatabaseRepository(this);
+            this.isOnline = false;
             Toast.makeText(this, "Error occurred. Falling back to: " + repository.getClass().getSimpleName(), Toast.LENGTH_SHORT).show();
 
         }
+    }
+
+    public boolean getIsOnline(){
+        return this.isOnline;
     }
 
     public IRepository<ToDo> getRepository(){

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".OverviewActivity"
+
+    >
+
 
     <data>
         <variable
@@ -9,27 +14,27 @@
     </data>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_centerInParent="true"
-            />
+        android:layout_height="match_parent"
+        >
+
+    <ProgressBar
+        android:id="@+id/overview_progressbar"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_centerInParent="true"
+        />
+
     <LinearLayout
-        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/overview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="org.dieschnittstelle.mobile.android.skeleton.OverviewActivity"
         android:orientation="vertical"
         >
-
 
         <TextView
             android:layout_width="wrap_content"
@@ -100,5 +105,6 @@
 
         </RelativeLayout>
     </LinearLayout>
+
     </RelativeLayout>
 </layout>

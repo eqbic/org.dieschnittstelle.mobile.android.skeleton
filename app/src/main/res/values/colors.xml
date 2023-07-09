@@ -6,4 +6,5 @@
     <color name="primaryDark">#1d3557</color>
     <color name="white">#f1faee</color>
     <color name="red">#e63946</color>
+    <color name="black">#000000</color>
 </resources>

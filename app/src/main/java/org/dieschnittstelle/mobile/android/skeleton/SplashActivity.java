@@ -14,12 +14,15 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
+        handler.postDelayed(() -> {
+            boolean isOnline = ((TodoApplication)getApplication()).getIsOnline();
+            if(isOnline){
+                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+
+            }else{
                 startActivity(new Intent(SplashActivity.this, OverviewActivity.class));
-                finish();
             }
-        }, 4000);
+            finish();
+        }, 2000);
     }
 }
