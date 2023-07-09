@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -85,12 +86,16 @@ public class ToDo implements Serializable {
         this.dateFormat.setTimeZone(tz);
         this.dateFormat.setTimeZone(tz);
         this.parseFormat.setTimeZone(tz);
+        this.description = "";
+        Calendar cal = Calendar.getInstance();
+        this.expiry = cal.getTimeInMillis();
     }
 
     public ToDo(String name){
         super();
         this.name = name;
         this.done = false;
+
     }
 
     public long getId() {

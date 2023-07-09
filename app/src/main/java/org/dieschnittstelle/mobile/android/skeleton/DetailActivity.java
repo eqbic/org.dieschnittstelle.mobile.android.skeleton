@@ -56,8 +56,6 @@ public class DetailActivity extends AppCompatActivity{
             }
     );
 
-
-
     MaterialDatePicker.Builder<Long> materialDateBuilder = MaterialDatePicker.Builder.datePicker();
     private final MaterialDatePicker<Long> datePicker = materialDateBuilder.build();
     private boolean isDatePickerVisible = false;
