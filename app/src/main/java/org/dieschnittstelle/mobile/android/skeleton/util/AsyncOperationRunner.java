@@ -21,6 +21,7 @@ public class AsyncOperationRunner {
         if(progressBar != null){
             progressBar.setVisibility(View.VISIBLE);
         }
+
         new Thread(()->{
             T result = asyncOperation.get();
             Log.i(owner.getClass().getSimpleName(), " got result from async operation: " + result);

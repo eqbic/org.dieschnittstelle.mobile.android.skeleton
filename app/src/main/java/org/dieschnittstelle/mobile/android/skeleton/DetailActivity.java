@@ -3,6 +3,7 @@ package org.dieschnittstelle.mobile.android.skeleton;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -208,5 +209,23 @@ public class DetailActivity extends AppCompatActivity{
                     }
                 },result -> finish()
         );
+    }
+
+    public void deleteTodo(View view){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Delete Todo");
+        builder.setMessage("Are you sure?");
+        builder.setPositiveButton("Yes", (dialog, which) -> {
+            operationRunner.run(
+                    () -> ((TodoApplication)getApplication()).getRepository().delete(this.viewModel.getTodo()), result -> finish()
+            );
+        });
+        builder.setNegativeButton("Cancel", (dialog, which)->{
+            dialog.cancel();
+        });
+        AlertDialog dialog = builder.create();
+
+        dialog.show();
     }
 }

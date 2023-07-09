@@ -6,6 +6,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -25,7 +26,7 @@ public class OverviewActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private TodoAdapter todoAdapter;
-
+    private ProgressBar progressBar;
     private AsyncOperationRunner operationRunner;
     private OverviewActivityViewModel viewModel;
     private ActivityOverviewBinding binding;
@@ -41,11 +42,14 @@ public class OverviewActivity extends AppCompatActivity {
             createNewTodo();
         });
 
+        // setup progressbar
+        this.progressBar = findViewById(R.id.progressBar);
+
         // setup data binding
         this.binding = DataBindingUtil.setContentView(this, R.layout.activity_overview);
         this.binding.setViewmodel(this.viewModel);
 
-        this.operationRunner = new AsyncOperationRunner(this, null);
+        this.operationRunner = new AsyncOperationRunner(this, this.progressBar);
 
         this.repository = ((TodoApplication)getApplication()).getRepository();
         this.todoAdapter = new TodoAdapter(this.repository, OverviewActivity.this, this.viewModel);
@@ -99,8 +103,8 @@ public class OverviewActivity extends AppCompatActivity {
         startActivity(callDetailViewIntent);
     }
 
-    public void updateView(){
-        this.todoAdapter.update();
+    public void refresh(View view){
+        updateTodos();
     }
 
     public void updateTodos(){
