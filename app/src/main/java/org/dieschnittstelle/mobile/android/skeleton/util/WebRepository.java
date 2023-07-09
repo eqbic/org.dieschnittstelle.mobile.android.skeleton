@@ -30,7 +30,9 @@ public class WebRepository implements IRepository<ToDo> {
         @PUT("/api/todos/{id}")
         public Call<ToDo> update(@Path("id")long id,@Body ToDo todo);
         @DELETE("/api/todos/{id}")
-        public Call<Void> delete(@Path("id")long id);
+        public Call<Boolean> delete(@Path("id")long id);
+        @DELETE("/api/todos")
+        public Call<Boolean> deleteAll();
     }
 
     private TodoResource todoResource;
@@ -85,9 +87,17 @@ public class WebRepository implements IRepository<ToDo> {
     @Override
     public boolean delete(ToDo item) {
         try{
-            this.todoResource.delete(item.getId()).execute().body();
-            return true;
+            return this.todoResource.delete(item.getId()).execute().body();
         }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean deleteAll() {
+        try{
+            return this.todoResource.deleteAll().execute().body();
+        }catch(Exception e){
             throw new RuntimeException(e);
         }
     }

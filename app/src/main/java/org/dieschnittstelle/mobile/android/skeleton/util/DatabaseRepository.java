@@ -46,6 +46,14 @@ public class DatabaseRepository implements IRepository<ToDo> {
         return true;
     }
 
+    @Override
+    public boolean deleteAll() {
+        for(ToDo todo : readAll()){
+            delete(todo);
+        }
+        return true;
+    }
+
     @Dao
     public static interface TodoDao{
 

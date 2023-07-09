@@ -202,9 +202,9 @@ public class DetailActivity extends AppCompatActivity{
         operationRunner.run(
                 () -> {
                     if(isUpdate){
-                        return OverviewActivity.getRepository().update(this.viewModel.getTodo());
+                        return ((TodoApplication)getApplication()).getRepository().update(this.viewModel.getTodo());
                     }else{
-                        return OverviewActivity.getRepository().create(this.viewModel.getTodo());
+                        return ((TodoApplication)getApplication()).getRepository().create(this.viewModel.getTodo());
                     }
                 },result -> finish()
         );

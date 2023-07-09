@@ -19,17 +19,17 @@ import org.dieschnittstelle.mobile.android.skeleton.Model.ToDo;
 import org.dieschnittstelle.mobile.android.skeleton.databinding.ActivityOverviewBinding;
 import org.dieschnittstelle.mobile.android.skeleton.util.AsyncOperationRunner;
 import org.dieschnittstelle.mobile.android.skeleton.util.IRepository;
-import org.dieschnittstelle.mobile.android.skeleton.util.RepositoryManager;
 import org.dieschnittstelle.mobile.android.skeleton.viewmodel.OverviewActivityViewModel;
 
 public class OverviewActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private TodoAdapter todoAdapter;
-    private static RepositoryManager repositoryManager;
+
     private AsyncOperationRunner operationRunner;
     private OverviewActivityViewModel viewModel;
     private ActivityOverviewBinding binding;
+    private IRepository<ToDo> repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +47,8 @@ public class OverviewActivity extends AppCompatActivity {
 
         this.operationRunner = new AsyncOperationRunner(this, null);
 
-        repositoryManager = new RepositoryManager(this);
-
-        this.todoAdapter = new TodoAdapter(repositoryManager, OverviewActivity.this, this.viewModel);
+        this.repository = ((TodoApplication)getApplication()).getRepository();
+        this.todoAdapter = new TodoAdapter(this.repository, OverviewActivity.this, this.viewModel);
 
         // update todos on the first time and get them by viewmodel otherwise
         if(this.viewModel.getTodos() == null){
@@ -95,10 +94,6 @@ public class OverviewActivity extends AppCompatActivity {
         return true;
     }
 
-    public static IRepository<ToDo> getRepository(){
-        return repositoryManager;
-    }
-
     private void createNewTodo() {
         Intent callDetailViewIntent = new Intent(this, DetailActivity.class);
         startActivity(callDetailViewIntent);
@@ -110,7 +105,7 @@ public class OverviewActivity extends AppCompatActivity {
 
     public void updateTodos(){
         operationRunner.run(
-                () -> repositoryManager.readAll(),
+                () -> this.repository.readAll(),
                 items -> {
                     this.viewModel.setTodos(items);
                     this.todoAdapter.update();
@@ -120,7 +115,7 @@ public class OverviewActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        if(repositoryManager != null){
+        if(this.repository != null){
             updateTodos();
         }
         super.onStart();

@@ -8,4 +8,5 @@ public interface IRepository<T> {
     public T read(long id);
     public boolean update(T item);
     public boolean delete(T item);
+    public boolean deleteAll();
 }
